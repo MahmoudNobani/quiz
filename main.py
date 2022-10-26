@@ -13,14 +13,14 @@ chosen_field = quiz["quiz"][field_choice]
 mark=0
 print(chosen_field.keys())
 for i in chosen_field.keys():
-    fields = list(chosen_field[i].keys())
-    print(chosen_field[i][fields[0]])
-    print(chosen_field[i][fields[1]])
+    choices = list(chosen_field[i].keys())
+    print(chosen_field[i][choices[0]])
+    print(chosen_field[i][choices[1]])
     answer = input();
-    if answer ==  chosen_field[i][fields[2]]:
+    if answer ==  chosen_field[i][choices[2]]:
         mark+=1
         print("your answer was true")
     else:
-        print("your answer was false, correct answer "+chosen_field[i][fields[2]]+"\n")
+        print("your answer was false, correct answer "+chosen_field[i][choices[2]]+"\n")
 
 print("total mark:",mark)

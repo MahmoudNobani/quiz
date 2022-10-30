@@ -1,4 +1,5 @@
 import json
+from logging import exception
 
 
 def get_quiz_data() -> dict:
@@ -57,19 +58,20 @@ def quiz_verification(questions: dict) -> int:
             print(questions[i][choices[0]])  # question descrrption
             print_list(questions[i][choices[1]])  # question choices
             answer = input()
-            if int(answer) < 1:
-                print("the entered value is wrong, please try again")
-                tries += 1
-                continue
+
             try:
-                if questions[i][choices[1]][int(answer) - 1] == questions[i][choices[2]]: #choosen ans=real ans
+                if int(answer) < 1:
+                    print("the entered value is wrong, please try again")
+                    tries += 1
+                    continue
+                if questions[i][choices[1]][int(answer) - 1] == questions[i][choices[2]]:  # choosen ans=real ans
                     mark += 1
                     print("your answer was true")
                 else:
                     print("your answer was false, correct answer " + questions[i][choices[2]] + "\n")
                 break
-            except:
-                print("the entered value is out of the defined range, please try again")
+            except Exception as err:
+                print(f"Unexpected {err=}, {type(err)=}")
                 tries += 1
 
     return mark
@@ -81,8 +83,8 @@ if __name__ == "__main__":
     first_choice = input()
     try:
         condition = int(first_choice) == 1
-    except:
-        print("the entered value is wrong, please try again")
+    except Exception as err:
+        print(f"Unexpected {err=}, {type(err)=}")
     else:
         if condition:
             quiz = get_quiz_data()
@@ -94,18 +96,20 @@ if __name__ == "__main__":
                 print_list(fields)
                 print("3 )  exit")
                 field_choice = input()  # sport or math
-                if int(field_choice) < 1:
-                    print("the entered value is wrong, please try again")
-                    tries += 1
-                    continue
-                elif int(field_choice) == 3:
-                    exit()
+
                 try:
                     questions = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
-                except:
-                    print("the entered value is wrong, please try again")
+
+                except Exception as err:
+                    print(f"Unexpected {err=}, {type(err)=}")
                     tries += 1
                 else:
+                    if int(field_choice) < 1:
+                        print("the entered value is wrong, please try again")
+                        tries += 1
+                        continue
+                    elif int(field_choice) == 3:
+                        exit()
                     mark = quiz_verification(questions)
                     print("total mark:", mark)
                     tries = 3
@@ -113,6 +117,3 @@ if __name__ == "__main__":
         else:
             print("the entered value is wrong, please try again")
             exit()
-
-
-

@@ -85,35 +85,33 @@ if __name__ == "__main__":
         condition = int(first_choice) == 1
     except Exception as err:
         print(f"Unexpected {err=}, {type(err)=}")
-    else:
-        if condition:
-            quiz = get_quiz_data()
-            fields = get_fields(quiz)  # list of field (sports, math)
+    if not condition:
+        print("the entered value is wrong, please try again")
+        exit(1)
 
-            tries = 0
-            while tries != 3:
-                print("please choose one of the following fields")
-                print_list(fields)
-                print("3 )  exit")
-                field_choice = input()  # sport or math
+    quiz = get_quiz_data()
+    fields = get_fields(quiz)  # list of field (sports, math)
 
-                try:
-                    questions = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
+    tries = 0
+    while tries != 3:
+        print("please choose one of the following fields")
+        print_list(fields)
+        print("3 )  exit")
+        field_choice = input()  # sport or math
 
-                except Exception as err:
-                    print(f"Unexpected {err=}, {type(err)=}")
-                    tries += 1
-                else:
-                    if int(field_choice) < 1:
-                        print("the entered value is wrong, please try again")
-                        tries += 1
-                        continue
-                    elif int(field_choice) == 3:
-                        exit()
-                    mark = quiz_verification(questions)
-                    print("total mark:", mark)
-                    tries = 3
+        try:
+            questions = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
 
-        else:
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            tries += 1
+
+        if int(field_choice) < 1:
             print("the entered value is wrong, please try again")
+            tries += 1
+            continue
+        elif int(field_choice) == 3:
             exit()
+        mark = quiz_verification(questions)
+        print("total mark:", mark)
+        tries = 3

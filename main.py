@@ -34,8 +34,10 @@ def print_list(temp: list):
             Returns:
                 there is no return value.
     """
+    counter = 1
     for i in temp:
-        print(i)
+        print(counter, ") ", i)
+        counter += 1
 
 
 def quiz_verification(questions: dict) -> int:
@@ -47,31 +49,48 @@ def quiz_verification(questions: dict) -> int:
                 The return value is the overall evaluation/mark
     """
     mark = 0
+    flagx = 0
     for i in questions.keys():
         choices = list(questions[i].keys())
-        print(questions[i][choices[0]])
-        print(questions[i][choices[1]])
-        answer = input();
-        if answer == questions[i][choices[2]]:
-            mark += 1
-            print("your answer was true")
-        else:
-            print("your answer was false, correct answer " + questions[i][choices[2]] + "\n")
+
+        while flagx != 3:
+            print(questions[i][choices[0]])  # question descrrption
+            print_list(questions[i][choices[1]])  # question choices
+            answer = input()
+            try:
+                if questions[i][choices[1]][int(answer) - 1] == questions[i][choices[2]]:
+                    mark += 1
+                    print("your answer was true")
+                else:
+                    print("your answer was false, correct answer " + questions[i][choices[2]] + "\n")
+                break
+            except:
+                print("the entered value is out of the defined range, please try again")
+                flagx += 1
+
     return mark
 
 
-quiz = get_quiz_data()
+print("do u want to take the quiz:")
+print("1 ) Yes" + "\n" + "2 ) No")
+first_choice = input()
+if int(first_choice) == 1:
+    quiz = get_quiz_data()
 
-fields = get_fields(quiz) #list of field (sports, math)
+    fields = get_fields(quiz)  # list of field (sports, math)
 
-print("please choose on of the following fields")
-print_list(fields)
-
-field_choice = input() #sport or math
-
-chosen_q = quiz["quiz"][field_choice] #list of questions
-print(type(chosen_q))
-
-mark = quiz_verification(chosen_q)
-
-print("total mark:", mark)
+    flag = 0
+    while flag != 3:
+        print("please choose one of the following fields")
+        print_list(fields)
+        field_choice = input()  # sport or math
+        try:
+            chosen_q = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
+            mark = quiz_verification(chosen_q)
+            print("total mark:", mark)
+            flag = 3
+        except:
+            print("the entered value is wrong, please try again")
+            flag += 1
+else:
+    exit()

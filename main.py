@@ -96,11 +96,13 @@ if int(first_choice) == 1:
             exit()
         try:
             chosen_q = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
-            mark = quiz_verification(chosen_q)
-            print("total mark:", mark)
-            flag = 3
         except:
             print("the entered value is wrong, please try again")
             flag += 1
+        else:
+            mark = quiz_verification(chosen_q)
+            print("total mark:", mark)
+            flag = 3
+
 else:
     exit()

@@ -2,9 +2,8 @@ import json
 
 
 def get_quiz_data():  # get all the data
-    f = open('quiz.json')
-    quiz_temp = json.load(f)
-    f.close()
+    with open('quiz.json') as f:
+        quiz_temp = json.load(f)
     return quiz_temp
 
 

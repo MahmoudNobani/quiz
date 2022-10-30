@@ -57,6 +57,10 @@ def quiz_verification(questions: dict) -> int:
             print(questions[i][choices[0]])  # question descrrption
             print_list(questions[i][choices[1]])  # question choices
             answer = input()
+            if int(answer) < 1:
+                print("the entered value is wrong, please try again")
+                flagx += 1
+                continue
             try:
                 if questions[i][choices[1]][int(answer) - 1] == questions[i][choices[2]]:
                     mark += 1
@@ -76,14 +80,20 @@ print("1 ) Yes" + "\n" + "2 ) No")
 first_choice = input()
 if int(first_choice) == 1:
     quiz = get_quiz_data()
-
     fields = get_fields(quiz)  # list of field (sports, math)
 
     flag = 0
     while flag != 3:
         print("please choose one of the following fields")
         print_list(fields)
+        print("3 )  exit")
         field_choice = input()  # sport or math
+        if int(field_choice) < 1:
+            print("the entered value is wrong, please try again")
+            flag += 1
+            continue
+        elif int(field_choice) == 3:
+            exit()
         try:
             chosen_q = quiz["quiz"][fields[int(field_choice) - 1]]  # list of questions
             mark = quiz_verification(chosen_q)
